@@ -1,0 +1,30 @@
+{
+  "name": "erp-aero-project",
+  "version": "1.0.0",
+  "description": "Node.js rest-api for ERP-AERO",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": [
+    "node.js",
+    "express",
+    "mysql",
+    "rest-api"
+  ],
+  "author": "Evgeniy Belkovskiy",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  },
+  "devDependencies": {
+    "jest": "^26.6.0",
+    "nodemon": "^2.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/belkovskiy/task-erp-aero-node.js.git"
+  }
+}
