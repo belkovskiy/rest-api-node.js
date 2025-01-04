@@ -15,11 +15,50 @@ const connection = mysql.createConnection({
 
 connection.connect((err) => {
   if (err) {
-    console.error("Error connecting to MySQL", err);
+    console.error('Error connecting to MySQL ' + err.stack);
     return;
   }
-  console.log("Connect to MySQL Successfully!");
+  console.log('Connect to MySQL Successfully! ' + connection.threadId);
 });
+
+const createTables = () => {
+  const createUsersTable = `
+    CREATE TABLE IF NOT EXISTS users(
+      id VARCHAR(255) PRIMARY KEY,
+      password VARCHAR(255) NOT NULL
+      )
+  `;
+
+  const createFilesTable = `
+    CREATE TABLE IF NOT EXISTS files(
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      extension VARCHAR(10) NOT NULL,
+      mime_type VARCHAR(100) NOT NULL,
+      size INT NOT NULL,
+      upload_date DATETIME DEFAULT CURRENT_TIMESTAMP
+    )
+  `;
+
+  connection.query(createUsersTable, (err, results) => {
+    if (err) {
+      console.error('Error creating table users: ' + err.message);
+    } else {
+      console.log('The table users was created successfully or already exsits!');
+    }
+  });
+
+  connection.query(createFilesTable, (err, results) => {
+    if (err) {
+      console.error('Error creating table files: ' + err.message);
+    } else {
+      console.log('The table files was created successfully or already exists!');
+    }
+  });
+};
+
+createTables();
+
 
 app.get('/', (req, res) => {
   res.send('Server is running!');
