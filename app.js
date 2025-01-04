@@ -23,14 +23,24 @@ connection.connect((err) => {
 
 const createTables = () => {
   const createUsersTable = `
-    CREATE TABLE IF NOT EXISTS users(
+    CREATE TABLE IF NOT EXISTS users (
       id VARCHAR(255) PRIMARY KEY,
       password VARCHAR(255) NOT NULL
       )
   `;
 
+  const createTokensTable = `
+    CREATE TABLE IF NOT EXISTS tokens (
+      id INT AUTO_INCREMENT PRIMARY KEY,
+      user_id VARCHAR(255) NOT NULL,
+      refresh_token VARCHAR(255) NOT NULL,
+      device_info VARCHAR(255) NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES users(id)
+    )
+  `;
+
   const createFilesTable = `
-    CREATE TABLE IF NOT EXISTS files(
+    CREATE TABLE IF NOT EXISTS files (
       id INT AUTO_INCREMENT PRIMARY KEY,
       name VARCHAR(255) NOT NULL,
       extension VARCHAR(10) NOT NULL,
@@ -45,6 +55,14 @@ const createTables = () => {
       console.error('Error creating table users: ' + err.message);
     } else {
       console.log('The table users was created successfully or already exsits!');
+    }
+  });
+
+  connection.query(createTokensTable, (err, results) => {
+    if (err) {
+      console.error('Error creating table tokens: ' + err.message);
+    } else {
+      console.log('The table tokens was created successfully or already exists!');
     }
   });
 
