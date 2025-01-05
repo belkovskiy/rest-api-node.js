@@ -4,12 +4,16 @@ const express = require('express');
 const mysql = require('mysql2');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const authRoutes = require('./routes/authRoutes');
+const { authenticateToken } = require('./middleware/authMiddleware');
 
 const app = express();
 const port = process.env.PORT;
 
 app.use(bodyParser.json());
 app.use(cors());
+
+app.use('/auth', authRoutes);
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
