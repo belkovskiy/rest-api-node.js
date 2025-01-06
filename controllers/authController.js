@@ -74,7 +74,7 @@ const signup = async (req, res) => {
     res.status(201).json({ accessToken, refreshToken });
   } catch (error) {
     res.status(500)
-    .json({ message: 'InternalServer Error!' });
+    .json({ error: error.message, message: 'InternalServer Error!' });
   }
 };
 
