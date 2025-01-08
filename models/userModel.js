@@ -1,4 +1,6 @@
 const mysql = require('mysql2/promise');
+const { refreshToken } = require('../controllers/authController');
+const { use } = require('../routes/authRoutes');
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -29,7 +31,7 @@ const createUser = async (id, passwordHash) => {
      await pool.query(
       'INSERT INTO users ( id, password ) VALUES (?, ?)',
       [id, passwordHash]
-    );
+    );      
     return { id: result.insertId, id: id};
   } catch (error) {
     console.error('Error creating user: ', error);
@@ -37,13 +39,52 @@ const createUser = async (id, passwordHash) => {
   }
 };
 
+const createUserToken = async (userId, refreshToken, deviceInfo) => {
+  try {
+    const [result] = 
+      await pool.query(
+        'INSERT INTO tokens ( user_id, refresh_token, device_info ) VALUES (?, ?, ?)',
+         [userId, refreshToken, deviceInfo]
+        );
+    return { userId: result.insertId.userId, userId: userId };
+  } catch (error) {
+    console.error('Error creating user token: ', error);
+    throw error;
+  }
+};
+
+const getUserToken = async (userId) => {
+  try {
+    const [result] =
+     await pool.query('SELECT * FROM tokens WHERE user_id = ?', [userId]);
+    return result;
+  } catch (error) {
+    console.error('Error get user token! ', error);
+  }
+}
+
+const deleteUserToken = async (userId, refreshToken) => {
+  try {    
+    await pool.query('DELETE FROM tokens WHERE user_id = ? AND refresh_token = ?', [userId, refreshToken]);
+  } catch (error) {
+    console.error('Error delete user token: ', error);
+    throw error;
+  }
+}
+
 const updateUserToken = async (id, refreshToken) => {
   try {
-    await pool.query('UPDATE tokens SET refresh_token = ? WHERE user_id = ?', [refreshToken, id]);
+    await pool.query('UPDATE tokens SET refresh_token = ? WHERE user_id = ?', [refreshToken, id]);    
   } catch (error) {
     console.error('Error updating user token: ', error);
     throw error;
   }
 };
 
-module.exports = { createUser, getUserById, updateUserToken };
+module.exports = {
+  createUser,
+  getUserById,
+  createUserToken,
+  getUserToken,
+  updateUserToken,
+  deleteUserToken };

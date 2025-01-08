@@ -42,6 +42,6 @@ const {
  router.post('/signin/new_token', refreshToken);
  router.post('/signup', validateSignup, handleValidationErrors, signup);
  router.get('/info', authenticateToken, info);
- router.get('/logout', logout);
+ router.post('/logout', authenticateToken, logout);
 
  module.exports = router;

@@ -7,6 +7,8 @@ const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
 const { authenticateToken } = require('./middleware/authMiddleware');
 
+const useragent = require('useragent');
+
 const app = express();
 const port = process.env.PORT;
 
@@ -90,6 +92,11 @@ createTables();
 app.get('/', (req, res) => {
   res.send('Server is running!');
 });
+
+app.get('/device-info', (req, res) => {
+  const agent = useragent.parse(req.headers['user-agent']);
+  res.send(`Device: ${agent.device}, OS: ${agent.os}, Browser: ${agent.toString()}`);
+})
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
