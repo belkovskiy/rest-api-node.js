@@ -4,6 +4,7 @@
   "description": "Node.js rest-api for ERP-AERO",
   "main": "app.js",
   "scripts": {
+    "init-db": "node scripts/initDb.js",
     "start": "node app.js"
   },
   "keywords": [
