@@ -14,14 +14,14 @@ const createSession = async (
   );
 };
 
-const findSessionsByUserId = async (userId) => {
+const getSessionsByUserId = async (userId) => {
   const rows = await db.execute(
     `SELECT * FROM sessions WHERE user_id = ?`, [userId]
   );
   return rows;
 };
 
-const findSessionByToken = async (
+const getSessionByToken = async (
   refreshToken,
   deviceInfo
 ) => {
@@ -41,7 +41,7 @@ const deleteSessionByToken = async (refreshToken) => {
 
 module.exports = {
   createSession,
-  findSessionsByUserId,
-  findSessionByToken,
+  getSessionsByUserId,
+  getSessionByToken,
   deleteSessionByToken
 };
