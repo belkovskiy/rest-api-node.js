@@ -12,8 +12,14 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(cors());
+app.use((req, res, next) => {
+  res.header('Access-Allow-Control-Origin', '*');
+  res.header('Access-Allow-Control-Headers',
+    'Origin, X-Requested-With, Authrization, Content-Type, Accept');
+  next();
+});
 
-app.get('/', (req, res) => {  
+app.get('/', (req, res) => {
   res.send('Home Page');
 });
 
