@@ -47,7 +47,7 @@ const handleValidationErrors = (req, res, next) => {
 router.post('/signin', validateSignUp, handleValidationErrors, signin);
 router.post('/signin/new_token', newToken);
 router.post('/signup', validateSignUp, handleValidationErrors, signup);
-router.get('/info', info);
+router.get('/info', checkAccessToken, info);
 router.post('/logout', logout);
 
 module.exports= router;

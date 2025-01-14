@@ -3,10 +3,10 @@ const db = require('../config/db');
 const createSession = async (
   userId,
   refreshToken,
-  exppiresIn,
+  expiresIn,
   deviceInfo
 ) => {
-  return db.execute(
+  return await db.execute(
     `INSERT INTO sessions (
     user_id, refresh_token, expires_in, device_info
     ) VALUES (?, ?, ?, ?)`,
@@ -14,9 +14,9 @@ const createSession = async (
   );
 };
 
-const getSessionsByUserId = async (userId) => {
+const getSessionsByUserId = async (userId, userDeviceInfo) => {
   const rows = await db.execute(
-    `SELECT * FROM sessions WHERE user_id = ?`, [userId]
+    `SELECT * FROM sessions WHERE user_id = ? AND device_info = ?`, [userId, userDeviceInfo]
   );
   return rows;
 };
@@ -33,7 +33,7 @@ const getSessionByToken = async (
 };
 
 const deleteSessionByToken = async (refreshToken) => {
-  return db.execute(
+  return await db.execute(
     `DELETE FROM sessions WHERE refresh_token = ?`,
     [refreshToken]
   );

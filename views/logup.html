@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Регистрация</title>
+</head>
+
+<body>
+  <h1>REST API Client</h1>
+
+  <h2>1. Регистрация</h2>
+  <input type="text" id="registerId" placeholder="Email or Phone">
+  <input type="password" id="registerPassword" placeholder="Password">
+  <button onclick="register()">Register</button>
+
+
+  <script>
+
+    let accessToken = '';
+    let refreshToken = '';
+    const HOST = 'http://localhost:3000';
+
+    function register() {
+      const id = document.getElementById('registerId').value;
+      const password = document.getElementById('registerPassword').value;
+
+      fetch(HOST + '/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id, password })
+      })
+        .then(response => response.json())
+        .then(data => {
+          alert('Registration successful!');
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+  </script>
+</body>
+
+</html>
