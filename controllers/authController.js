@@ -4,8 +4,6 @@ const bcrypt = require('bcrypt');
 const useragent = require('useragent');
 const logger = require('../utils/logger');
 
-const path = require('path');
-
 const {
   createUser,
   getUserById
@@ -42,6 +40,7 @@ const signup = async (req, res, next) => {
   const hashedPassword = await bcrypt.hash(password, 10);
   const deviceInfo =
     `${req.socket.remoteAddress}, ${getDeviceInfo(req)}`;
+
   try {
     await createUser(id, hashedPassword);
 
@@ -70,10 +69,19 @@ const signup = async (req, res, next) => {
       path: '/',
     }
     );
-
-    res.json({ accessToken, message: 'User registered successfully!' });
+    
+    res.json({
+      accessToken,
+      message: 'User registered successfully!'
+    });
   } catch (error) {
-    logger.error('User registration failed!', { error });
+    logger.error({ error });
+    if (error.code == 'ER_DUP_ENTRY') {
+      error =
+        'Registration failed! User with the same ID already exists!';
+    } else {
+      error = 'Internal Server Error';
+    }
     next(error);
   }
 };
@@ -82,37 +90,25 @@ const signin = async (req, res, next) => {
   const { id, password } = req.body;
   const deviceInfo =
     `${req.socket.remoteAddress}, ${getDeviceInfo(req)}`;
-  console.log(deviceInfo);
 
   try {
     const user = await getUserById(id);
-    console.log(user);
     if (!user || !(await bcrypt.compare(password, user.password))) {
       const error = new Error('Invalid credentials');
       error.status = 401;
       throw error;
     }
 
-    console.log(id);
     const userSessions = await getSessionsByUserId(id, deviceInfo);
-    console.log(userSessions[0]);
     if (userSessions[0]?.length >= 1) {
       for (const session of userSessions[0]) {
-        console.log(session?.device_info);
         if (session.device_info == deviceInfo) {
-          console.log('!!!User was already logged in!');
-          throw new Error('User was already logged in!');
+          if (session?.refresh_token) {
+            await deleteSessionByToken(session.refresh_token);
+          }
         }
       }
     }
-    // const sessions = await getSessionsByUserId(user.id);
-    // if (sessions.length >= 2) {
-    //   sessions.sort((a, b) => a.expires_in - b.expires_in);
-    //   const sessionsToDelete = sessions.slice(0, sessions.length - 4);
-    //   for (const session of sessionsToDelete) {
-    //     await deleteSessionByToken(session.refresh_token);
-    //   }
-    // }
 
     const accessToken = jwt.sign(
       { userId: user.id },
@@ -121,7 +117,7 @@ const signin = async (req, res, next) => {
     );
 
     const refreshToken = jwt.sign(
-      { id: user.id },
+      { userId: user.id },
       JWT_REFRESH_SECRET,
       { expiresIn: JWT_REFRESH_EXPIRATION }
     );
@@ -148,56 +144,47 @@ const signin = async (req, res, next) => {
 
 const newToken = async (req, res, next) => {
   const { refreshToken } = req.cookies;
-  // const deviceInfo =
-  //   `${req.socket.remoteAddress}, ${getDeviceInfo(req)}`;
 
   try {
-    console.log("Try to get a New Token!");
     jwt.verify(refreshToken, JWT_REFRESH_SECRET, async (error, decoded) => {
       if (error) {
         if (error.name == 'TokenExpiredError') {
-          console.log('Token', error.message + '!');
           await deleteSessionByToken(refreshToken);
           logger.error('Refresh token jwt was expired!');
-          res.status(401).json({ error: 'Refresh token jwt was expired!' });
+          res.status(401)
+            .json({
+              error: 'Refresh token jwt was expired!'
+            });
           next(error);
         } else {
-          console.log('Json Web Token Error: ' + error.message + '!');
-          logger.error('Json Web Token Error: invalid signature');
-          res.status(401).json({ error: 'Json Web Token Error: invalid signature' });
+          logger.error(
+            'Json Web Token Error: invalid signature'
+          );
+          res.status(401)
+            .json({
+              error: 'Json Web Token Error: invalid signature'
+            });
           next(error);
-
         }
       } else {
-        console.log(decoded);
-        const userId = decoded.id;
-        console.log("Setting a new Access Token!");
+        const userId = decoded.userId;
         const accessToken = jwt.sign(
           { userId: userId },
           JWT_ACCESS_SECRET,
           { expiresIn: JWT_ACCESS_EXPIRATION }
         );
-    
-        res.json({ accessToken, userId });
+        res.json({ accessToken, id: userId });
       }
     });
-    // const session = await getSessionByToken(refreshToken, deviceInfo);
-
-    // if (!session || session.expires_in < Date.now()) {
-    //   const error = new Error('Invalid or expired refresh token!');
-    //   error.status = 401;
-    //   throw error;
-    // }
-
-    
   } catch (error) {
-    logger.error('Refresh the access token failed!');
+    logger.error(
+      'Refresh the access token failed!'
+    );
     next(error);
   }
 };
 
 const info = async (req, res) => {
-  console.log('INFO!');
   const { userId } = req.user;
   res.json({ id: userId });
 };
@@ -206,22 +193,44 @@ const logout = async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
   try {
-    // jwt.verify(refreshToken, JWT_REFRESH_SECRET, (err, decoded) => {
-    //   if (err) {
-    //     if (err.name == 'TokenExpiredError') {
-    //       console.log('Token', err.message + '!');
-
-    //     } else {
-    //       console.log('Json Web Token Error: ' + err.message + '!');
-    //     }
-    //   } else {
-    //     console.log(decoded);
-    //   }
-    // });
-
-    await deleteSessionByToken(refreshToken);
-    res.clearCookie('refreshToken', { path: '/' });
-    res.json({ accessToken: '', message: 'Logged out successfully! ' });
+    jwt.verify(
+      refreshToken,
+      JWT_REFRESH_SECRET,
+      async (error, decoded) => {
+        if (error) {
+          if (error.name == 'TokenExpiredError') {
+            await deleteSessionByToken(refreshToken);
+            logger.error(
+              'Refresh token jwt was expired!'
+            );
+            res.clearCookie('refreshToken', { path: '/' });
+            res.status(401)
+              .json({
+                error: 'Refresh token jwt was expired! ',
+                message: 'Logged out successfully!'
+              });
+            next(error);
+          } else {
+            logger.error(
+              'Json Web Token Error: invalid signature'
+            );
+            res.clearCookie('refreshToken', { path: '/' });
+            res.status(401)
+              .json({
+                error: 'Json Web Token Error: invalid signature',
+                message: 'Logout failed!'
+              });
+            next(error);
+          }
+        } else {
+          await deleteSessionByToken(refreshToken);
+          res.clearCookie('refreshToken', { path: '/' });
+          res.json({
+            accessToken: '',
+            message: 'Logged out successfully! '
+          });
+        }
+      });
   } catch (error) {
     logger.error('Logout failed!', { error });
     next(error);

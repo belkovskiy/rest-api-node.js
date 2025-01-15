@@ -88,13 +88,21 @@
                 },
                 body: JSON.stringify({ id, password })
             })
-                .then(response => response.json())
+                .then(response => response.json()                                      
+                )
                 .then(data => {
                     console.log(data);
-                    accessToken = data.accessToken;
-                    alert('Registration successful!');
+                    accessToken = data?.accessToken || '';
+                    if (data && !data?.error) {
+                        alert('Registration successful!');
+                    } else {
+                        alert(data?.error);
+                    }
+
                 })
-                .catch(error => console.error('Error:', error));
+                .catch(error => {
+                    console.error('Error:', error);                    
+                });
         }
 
         function login() {
@@ -147,8 +155,8 @@
                     .then(response => response.json())
                     .then(data => {
                         accessToken = data.accessToken;
-                        if (data.userId) {
-                            document.getElementById('userInfo').innerText = `Updated access token! UserID: ${data.userId}`;
+                        if (data.id) {
+                            document.getElementById('userInfo').innerText = `Updated access token! UserID: ${data.id}`;
                         } else {
                             document.getElementById('userInfo').innerText = data.error;
                         }

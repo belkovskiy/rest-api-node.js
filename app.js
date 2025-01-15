@@ -23,8 +23,6 @@ app.use((req, res, next) => {
 });
 
 app.use('/', authRoutes);
-// app.use('/auth', authRouter);
-
 
 app.use(express.static('views'));
   

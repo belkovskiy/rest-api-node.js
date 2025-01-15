@@ -80,3 +80,74 @@
 {"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 01:47:33"}
 {"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 01:54:19"}
 {"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 01:58:06"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 02:04:01"}
+{"error":{"status":401},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 02:04:13"}
+{"error":{"status":401},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 02:04:21"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 02:05:07"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 02:06:54"}
+{"error":{},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 02:08:18"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 14:58:37"}
+{"error":{"message":"Bind parameters must not contain undefined. To pass SQL NULL specify JS null"},"level":"error","message":"Logout failed!","service":"user-service","timestamp":"2025-01-15 14:59:11"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 15:05:15"}
+{"error":{},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 15:05:44"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 15:56:38"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user4@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 15:58:52"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 16:06:42"}
+{"error":{},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 16:07:14"}
+{"error":{"message":"Bind parameters must not contain undefined. To pass SQL NULL specify JS null"},"level":"error","message":"Logout failed!","service":"user-service","timestamp":"2025-01-15 16:07:47"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 17:12:06"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 17:20:03"}
+{"error":{"message":"Bind parameters must not contain undefined. To pass SQL NULL specify JS null"},"level":"error","message":"Logout failed!","service":"user-service","timestamp":"2025-01-15 17:22:15"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 17:23:39"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:26:46"}
+{"error":{"message":"Bind parameters must not contain undefined. To pass SQL NULL specify JS null"},"level":"error","message":"Logout failed!","service":"user-service","timestamp":"2025-01-15 17:31:36"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:41:35"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:42:32"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:44:36"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:44:59"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:48:57"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:50:05"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:52:57"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:53:01"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 17:57:02"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 17:57:24"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 18:02:00"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 18:03:11"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 18:04:46"}
+{"error":{},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:01:53"}
+{"error":{},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:06:03"}
+{"error":{},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:08:43"}
+{"error":{},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:12:44"}
+{"error":{"code":"ERR_HTTP_HEADERS_SENT"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:12:44"}
+{"error":{"status":401},"level":"error","message":"Signin failed!","service":"user-service","timestamp":"2025-01-15 19:15:15"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 19:20:03"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 19:21:04"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 19:23:20"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 19:24:09"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 19:24:13"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 19:24:26"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 21:57:33"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:01:16"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:02:36"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:03:09"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:05:50"}
+{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"},"level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:07:48"}
+{"errorMessage":"User with the same ID already exists!","level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:12:52"}
+{"error":"User with the same ID already exists!","level":"error","message":"User registration failed!","service":"user-service","timestamp":"2025-01-15 22:16:45"}
+{"level":"error","message":{"error":"Registration failed! User with the same ID already exists!"},"service":"user-service","timestamp":"2025-01-15 22:19:59"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 22:20:12"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 22:21:54"}
+{"level":"error","message":{"error":"Registration failed! User with the same ID already exists!"},"service":"user-service","timestamp":"2025-01-15 22:22:19"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 22:26:50"}
+{"level":"error","message":{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user45@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"}},"service":"user-service","timestamp":"2025-01-15 22:27:04"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 22:33:58"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 22:42:54"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 22:48:36"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 22:51:37"}
+{"level":"error","message":"Json Web Token Error: invalid signature","service":"user-service","timestamp":"2025-01-15 23:16:52"}
+{"level":"error","message":{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user999@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user999@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"}},"service":"user-service","timestamp":"2025-01-15 23:17:55"}
+{"level":"error","message":{"error":{"code":"ER_DUP_ENTRY","errno":1062,"message":"Duplicate entry 'user999@mail.ru' for key 'users.PRIMARY'","sql":"INSERT INTO users(id, password) VALUES (?, ?)","sqlMessage":"Duplicate entry 'user999@mail.ru' for key 'users.PRIMARY'","sqlState":"23000"}},"service":"user-service","timestamp":"2025-01-15 23:53:52"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 23:56:45"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 23:57:08"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 23:59:09"}
+{"level":"error","message":"Refresh token jwt was expired!","service":"user-service","timestamp":"2025-01-15 23:59:18"}

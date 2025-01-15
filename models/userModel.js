@@ -11,8 +11,7 @@ const getUserById = async (id) => {
   const [rows] = await db.execute(
     `SELECT * FROM users WHERE id = ?`,
     [id]
-  );
-  console.log('GET USER');
+  );  
   return rows[0];  
 };
 
