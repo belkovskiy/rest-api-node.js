@@ -28,25 +28,35 @@ const validateFileUpload = [
   upload.single('file'),
   (req, res, next) => {
     if (!req.file) {
-      return res.status(400).json({ message: 'File is required! ' });
+      return res.status(400)
+        .json({ message: 'File is required! ' });
     }
     next();
   },
 ];
 
 const validatePagination = [
-  query('list_size').optional().isInt({ min: 1 }).withMessage('List size must be a positive integer!'),
-  query('page').optional().isInt({ min: 1 }).withMessage('Page must be a positive integer!'),
+  query('list_size')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('List size must be a positive integer!'),
+  query('page')
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage('Page must be a positive integer!'),
 ];
 
 const validateFileId = [
-  param('id').isInt().withMessage('File ID must be an integer'),
+  param('id')
+    .isInt()
+    .withMessage('File ID must be an integer'),
 ];
 
 const handleValidationErrors = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty) {
-    return res.status(400).json({ errors: errors.array() });
+    return res.status(400)
+      .json({ errors: errors.array() });
   }
   next();
 };
