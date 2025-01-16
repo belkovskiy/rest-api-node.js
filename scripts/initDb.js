@@ -14,8 +14,7 @@ const createTables = async () => {
         CREATE TABLE IF NOT EXISTS sessions (
           id INT AUTO_INCREMENT PRIMARY KEY,
           user_id VARCHAR(255),
-          refresh_token VARCHAR(255),
-          expires_in BIGINT,
+          refresh_token VARCHAR(255),          
           device_info VARCHAR(255),
           FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
         )

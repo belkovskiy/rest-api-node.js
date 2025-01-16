@@ -2,15 +2,14 @@ const db = require('../config/db');
 
 const createSession = async (
   userId,
-  refreshToken,
-  expiresIn,
+  refreshToken,  
   deviceInfo
 ) => {
   return await db.execute(
     `INSERT INTO sessions (
-    user_id, refresh_token, expires_in, device_info
-    ) VALUES (?, ?, ?, ?)`,
-    [userId, refreshToken, expiresIn, deviceInfo]
+    user_id, refresh_token, device_info
+    ) VALUES (?, ?, ?)`,
+    [userId, refreshToken, deviceInfo]
   );
 };
 

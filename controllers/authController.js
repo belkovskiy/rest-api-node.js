@@ -26,8 +26,6 @@ const JWT_REFRESH_EXPIRATION =
   process.env.JWT_REFRESH_EXPIRATION;
 const COOKIES_MAX_AGE =
   process.env.COOKIES_MAX_AGE;
-const SESSION_EXPIRATION =
-  process.env.SESSION_EXPIRATION;
 
 const getDeviceInfo = (req) => {
   const agent =
@@ -58,7 +56,6 @@ const signup = async (req, res, next) => {
     await createSession(
       id,
       refreshToken,
-      Date.now() + SESSION_EXPIRATION,
       deviceInfo
     );
 
@@ -69,20 +66,22 @@ const signup = async (req, res, next) => {
       path: '/',
     }
     );
-    
+
     res.json({
       accessToken,
       message: 'User registered successfully!'
     });
   } catch (error) {
     logger.error({ error });
+    error.stack = '';
     if (error.code == 'ER_DUP_ENTRY') {
-      error =
-        'Registration failed! User with the same ID already exists!';
+      error.message= 'Registration failed! User with the same ID already exists!';      
+      error.status = 409;       
+      next(error);    
     } else {
-      error = 'Internal Server Error';
-    }
-    next(error);
+      error.message = 'Internal Server Error!';  
+      next(error);    
+    }    
   }
 };
 
@@ -94,9 +93,12 @@ const signin = async (req, res, next) => {
   try {
     const user = await getUserById(id);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      const error = new Error('Invalid credentials');
+      const error = new Error('Invalid credentials');      
       error.status = 401;
-      throw error;
+      console.log(error);
+      logger.error(error);
+      error.stack = '';
+      next(error);
     }
 
     const userSessions = await getSessionsByUserId(id, deviceInfo);
@@ -125,7 +127,6 @@ const signin = async (req, res, next) => {
     await createSession(
       user.id,
       refreshToken,
-      Date.now() + SESSION_EXPIRATION,
       deviceInfo
     );
 
@@ -137,7 +138,7 @@ const signin = async (req, res, next) => {
 
     res.json({ accessToken });
   } catch (error) {
-    logger.error('Signin failed!', { error });
+    logger.error('Signin failed!', { error });    
     next(error);
   }
 };
@@ -146,36 +147,39 @@ const newToken = async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
   try {
-    jwt.verify(refreshToken, JWT_REFRESH_SECRET, async (error, decoded) => {
-      if (error) {
-        if (error.name == 'TokenExpiredError') {
-          await deleteSessionByToken(refreshToken);
-          logger.error('Refresh token jwt was expired!');
-          res.status(401)
-            .json({
-              error: 'Refresh token jwt was expired!'
-            });
-          next(error);
+    jwt.verify(
+      refreshToken,
+      JWT_REFRESH_SECRET,
+      async (error, decoded) => {
+        if (error) {
+          if (error.name == 'TokenExpiredError') {
+            await deleteSessionByToken(refreshToken);
+            logger.error('Refresh token jwt was expired!');
+            res.status(401)
+              .json({
+                error: 'Refresh token jwt was expired!'
+              });
+            next(error);
+          } else {
+            logger.error(
+              'Json Web Token Error: invalid signature'
+            );
+            res.status(401)
+              .json({
+                error: 'Json Web Token Error: invalid signature'
+              });
+            next(error);
+          }
         } else {
-          logger.error(
-            'Json Web Token Error: invalid signature'
+          const userId = decoded.userId;
+          const accessToken = jwt.sign(
+            { userId: userId },
+            JWT_ACCESS_SECRET,
+            { expiresIn: JWT_ACCESS_EXPIRATION }
           );
-          res.status(401)
-            .json({
-              error: 'Json Web Token Error: invalid signature'
-            });
-          next(error);
+          res.json({ accessToken, id: userId });
         }
-      } else {
-        const userId = decoded.userId;
-        const accessToken = jwt.sign(
-          { userId: userId },
-          JWT_ACCESS_SECRET,
-          { expiresIn: JWT_ACCESS_EXPIRATION }
-        );
-        res.json({ accessToken, id: userId });
-      }
-    });
+      });
   } catch (error) {
     logger.error(
       'Refresh the access token failed!'
