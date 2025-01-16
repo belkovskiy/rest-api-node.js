@@ -29,6 +29,8 @@ const createTables = async () => {
         mime_type VARCHAR(100) NOT NULL,
         size INT NOT NULL,
         upload_date DATETIME DEFAULT CURRENT_TIMESTAMP
+        user_id VARCHAR(255),
+        FOREIGN KEY (user_id) REFERENCES users(id)
       )      
     `);
 
