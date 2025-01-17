@@ -35,7 +35,7 @@ const getFileById = async (id, userId) => {
   return rows[0];
 };
 
-const listFiles = async (userId, limit, offset) => {
+const getlistFiles = async (userId, limit, offset) => {
   const [rows] = await db.execute(
     `SELECT * FROM files WHERE user_id = ? LIMIT ? OFFSET ?`,
     [userId, limit, offset]
@@ -76,7 +76,8 @@ const updateFileById = async (
 module.exports = {
   createFile,
   getFileById,
-  listFiles,
+  getlistFiles,
   deleteFileById,
   updateFileById
 };
+
