@@ -3,3 +3,8 @@
 
 #Env Variables
 .env
+
+# Other
+/views
+combine.log
+error.log

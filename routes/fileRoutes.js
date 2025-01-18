@@ -1,5 +1,8 @@
 const express = require('express');
+const fs = require('fs');
+const path = require('path');
 const multer = require('multer');
+const iconv = require('iconv-lite');
 
 const {
   body,
@@ -8,21 +11,53 @@ const {
   validationResult
 } = require('express-validator');
 
-const {
-  checkAccessToken
-} = require('../middleware/authMiddleware');
+const checkAccessToken =
+  require('../middleware/authMiddleware');
 
 const {
   uploadFile,
   listFiles,
   deleteFile,
-  getFile,
+  getFileInfo,
   downloadFile,
-  updataFile
+  updateFile
 } = require('../controllers/fileController');
 
 const router = express.Router();
-const upload = multer({ dest: 'uploads/' });
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const uploadDir = 'uploads';
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir);
+    }
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const originalName = iconv.decode(
+      Buffer.from(file.originalname, 'binary'), 'utf-8'
+    );
+    cb(null, originalName);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  fileFilter: (req, file, cb) => {
+    const originalName = iconv.decode(
+      Buffer.from(file.originalname, 'binary'), 'utf-8'
+    );
+    const filePath = path.join('uploads', originalName);
+
+    if (fs.existsSync(filePath)) {
+      return cb(
+        'Error! File with the same name already exists!'
+      );
+    }
+
+    cb(null, true);
+  }
+});
 
 const validateFileUpload = [
   upload.single('file'),
@@ -82,11 +117,11 @@ router.get(
   checkAccessToken,
   validateFileId,
   handleValidationErrors,
-  getFile
+  getFileInfo
 );
 
 router.get(
-  '/dowmload/:id',
+  '/download/:id',
   checkAccessToken,
   validateFileId,
   handleValidationErrors,
@@ -107,7 +142,7 @@ router.put(
   validateFileId,
   validateFileUpload,
   handleValidationErrors,
-  updataFile
+  updateFile
 );
 
 module.exports = router;
