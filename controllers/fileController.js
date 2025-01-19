@@ -17,7 +17,7 @@ const uploadFile = async (req, res) => {
         .json({ message: 'No file uploaded!' });
     }
 
-    const { filename, mimetype, size } = req.file;        
+    const { filename, mimetype, size } = req.file;
     const userId = req.user.userId;
     const uploadDate = new Date();
 
@@ -82,14 +82,14 @@ const downloadFile = async (req, res) => {
   const fileId = id.replaceAll(':', '');
   const userId = req.user.userId;
 
-  try {    
+  try {
     const file = await getFileById(fileId, userId);
-    if (!file) {      
+    if (!file) {
       return res.status(404)
         .json({ message: 'File not found!' });
     }
     const filePath = path
-      .join(__dirname, '../uploads', file.name);        
+      .join(__dirname, '../uploads', file.name);
     res.download(filePath, file.name);
   } catch (error) {
     console.error('File download error!', error);
@@ -101,9 +101,10 @@ const downloadFile = async (req, res) => {
 const deleteFile = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.userId;
-
+  const fileId = id.replaceAll(':', '');
+  
   try {
-    const file = await getFileById(id, userId);
+    const file = await getFileById(fileId, userId);
     if (!file) {
       return res.status(404)
         .json({ message: 'File not found!' });
@@ -113,7 +114,7 @@ const deleteFile = async (req, res) => {
       .join(__dirname, '../uploads', file.name);
     fs.unlinkSync(filePath);
 
-    await deleteFileById(id);
+    await deleteFileById(fileId);
     res.json({ message: 'File deleted successfully!' });
   } catch (error) {
     console.error('Error delete file!', error);
@@ -124,7 +125,8 @@ const deleteFile = async (req, res) => {
 const updateFile = async (req, res) => {
   const { id } = req.params;
   const userId = req.user.userId;
-
+  console.log(id);
+  console.log(userId);
   try {
     const file = await getFileById(id, userId);
     if (!file) {
@@ -134,6 +136,7 @@ const updateFile = async (req, res) => {
     const previousFilePath = path.join(__dirname, '../uploads', file.name);
     fs.unlinkSync(previousFilePath);
     const { originalname, mimetype, size } = req.file;
+    console.log(originalname);
     const uploadDate = new Date();
 
     await updateFileById(

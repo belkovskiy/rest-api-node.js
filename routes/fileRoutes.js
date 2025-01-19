@@ -43,13 +43,13 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  fileFilter: (req, file, cb) => {
+  fileFilter: (req, file, cb) => {    
     const originalName = iconv.decode(
       Buffer.from(file.originalname, 'binary'), 'utf-8'
     );
     const filePath = path.join('uploads', originalName);
 
-    if (fs.existsSync(filePath)) {
+    if (fs.existsSync(filePath) && req.method == 'POST') {
       return cb(
         'Error! File with the same name already exists!'
       );

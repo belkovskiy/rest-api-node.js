@@ -49,15 +49,15 @@ const deleteFileById = async (id) => {
   );
 };
 
-const updateFileById = async (
-  id,
+const updateFileById = async (  
   name,
   extension,
   mimeType,
   size,
-  uploadDate
+  uploadDate,
+  id
 ) => {
-  await db.execute(
+  await db.query(
     `UPDATE files SET 
     name = ?,
     extension = ?,
