@@ -8,7 +8,16 @@ const {
 
 const path = require('path');
 const fs = require('fs');
-// const { off } = require('process');
+
+const getReqParams = (req) => {
+  const { id } = req.params;
+  const fileId = parseInt(id.replaceAll(':', ''));
+  const userId = req.user.userId;
+  return {
+    fileId,
+    userId
+  };
+};
 
 const uploadFile = async (req, res) => {
   try {
@@ -39,8 +48,6 @@ const uploadFile = async (req, res) => {
   }
 };
 
-
-
 const listFiles = async (req, res) => {
   const listSize = parseInt(req.query.list_size) || 10;
   const page = parseInt(req.query.page) || 1;
@@ -49,8 +56,7 @@ const listFiles = async (req, res) => {
 
   try {
     const files =
-      await getlistFiles(userId, listSize, offset);
-    console.log(files);
+      await getlistFiles(userId, listSize, offset);    
     res.json({ files: files });
   } catch (error) {
     console.error('Error listing files', error);
@@ -60,11 +66,11 @@ const listFiles = async (req, res) => {
 };
 
 const getFileInfo = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.userId;
+  const reqParams = getReqParams(req);  
 
   try {
-    const file = await getFileById(id, userId);
+    const file =
+      await getFileById(reqParams.fileId, reqParams.userId);
     if (!file) {
       return res.status(404)
         .json({ message: 'File not found!' });
@@ -78,12 +84,11 @@ const getFileInfo = async (req, res) => {
 };
 
 const downloadFile = async (req, res) => {
-  const { id } = req.params;
-  const fileId = id.replaceAll(':', '');
-  const userId = req.user.userId;
+  const reqParams = getReqParams(req); 
 
   try {
-    const file = await getFileById(fileId, userId);
+    const file =
+      await getFileById(reqParams.fileId, reqParams.userId);
     if (!file) {
       return res.status(404)
         .json({ message: 'File not found!' });
@@ -99,12 +104,11 @@ const downloadFile = async (req, res) => {
 };
 
 const deleteFile = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.userId;
-  const fileId = id.replaceAll(':', '');
-  
+  const reqParams = getReqParams(req);  
+
   try {
-    const file = await getFileById(fileId, userId);
+    const file =
+      await getFileById(reqParams.fileId, reqParams.userId);
     if (!file) {
       return res.status(404)
         .json({ message: 'File not found!' });
@@ -114,7 +118,7 @@ const deleteFile = async (req, res) => {
       .join(__dirname, '../uploads', file.name);
     fs.unlinkSync(filePath);
 
-    await deleteFileById(fileId);
+    await deleteFileById(reqParams.fileId);
     res.json({ message: 'File deleted successfully!' });
   } catch (error) {
     console.error('Error delete file!', error);
@@ -123,20 +127,15 @@ const deleteFile = async (req, res) => {
 };
 
 const updateFile = async (req, res) => {
-  const { id } = req.params;
-  const userId = req.user.userId;
-  console.log(id);
-  console.log(userId);
+  const reqParams = getReqParams(req);  
   try {
-    const file = await getFileById(id, userId);
+    const file =
+      await getFileById(reqParams.fileId, reqParams.userId);
     if (!file) {
       return res.status(404)
         .json({ message: 'File not found! ' });
-    }
-    const previousFilePath = path.join(__dirname, '../uploads', file.name);
-    fs.unlinkSync(previousFilePath);
-    const { originalname, mimetype, size } = req.file;
-    console.log(originalname);
+    }    
+    const { originalname, mimetype, size } = req.file;    
     const uploadDate = new Date();
 
     await updateFileById(
@@ -145,7 +144,7 @@ const updateFile = async (req, res) => {
       mimetype,
       size,
       uploadDate,
-      id
+      reqParams.fileId
     );
     res.json({ message: 'File updated successfully! ' });
   } catch (error) {

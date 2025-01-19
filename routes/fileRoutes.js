@@ -55,6 +55,12 @@ const upload = multer({
       );
     }
 
+    if (!fs.existsSync(filePath) && req.method == 'PUT') {
+      return cb(
+        'Error! File with the same name does not exist!'
+      )
+    }
+    
     cb(null, true);
   }
 });
