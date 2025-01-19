@@ -94,7 +94,7 @@ const downloadFile = async (req, res) => {
         .json({ message: 'File not found!' });
     }
     const filePath = path
-      .join(__dirname, '../uploads', file.name);
+      .join(__dirname, `../uploads/${reqParams.userId}`, file.name);
     res.download(filePath, file.name);
   } catch (error) {
     console.error('File download error!', error);
@@ -115,7 +115,7 @@ const deleteFile = async (req, res) => {
     }
 
     const filePath = path
-      .join(__dirname, '../uploads', file.name);
+      .join(__dirname, `../uploads/${reqParams.userId}`, file.name);
     fs.unlinkSync(filePath);
 
     await deleteFileById(reqParams.fileId);
