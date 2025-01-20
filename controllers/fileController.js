@@ -25,7 +25,6 @@ const uploadFile = async (req, res) => {
       return res.status(400)
         .json({ message: 'No file uploaded!' });
     }
-
     const { filename, mimetype, size } = req.file;
     const userId = req.user.userId;
     const uploadDate = new Date();

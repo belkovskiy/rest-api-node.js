@@ -49,12 +49,8 @@ const upload = multer({
     const originalName = iconv.decode(
       Buffer.from(file.originalname, 'binary'), 'utf-8'
     );
-    const filePath = path.join(userUploadDir, originalName);
-    
-    // const filePath = path.join('uploads', originalName);
-
-    console.log(filePath);
-
+    const filePath = path.join(userUploadDir, originalName);    
+        
     if (fs.existsSync(filePath) && req.method == 'POST') {
       return cb(
         'Error! File with the same name already exists!'
