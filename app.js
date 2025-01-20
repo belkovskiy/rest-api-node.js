@@ -26,23 +26,6 @@ app.use((req, res, next) => {
 app.use('/', authRoutes);
 app.use('/file', fileRoutes);
 
-app.use(express.static('views'));
-  
-app.get('/main', (req,res) => {
-  res.sendFile(path.join(__dirname, './views/old_index.html'));
-})
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, './views/home.html'));
-});
-
-app.get('/logup', (req, res) => {
-  res.sendFile(path.join(__dirname, './views/logup.html'))
-});
-
-app.get('/login', (req,res) => {
-  res.sendFile(path.join(__dirname, './views/login.html'));
-});
-
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
 });
