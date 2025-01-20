@@ -35,8 +35,8 @@ const getFileById = async (id, userId) => {
   return rows[0];
 };
 
-const getlistFiles = async (userId, limit, offset) => {
-  const [rows] = await db.execute(
+const getlistFiles = async (userId, limit, offset) => {  
+  const [rows] = await db.query(
     `SELECT * FROM files WHERE user_id = ? LIMIT ? OFFSET ?`,
     [userId, limit, offset]
   );
@@ -49,15 +49,15 @@ const deleteFileById = async (id) => {
   );
 };
 
-const updateFileById = async (
-  id,
+const updateFileById = async (  
   name,
   extension,
   mimeType,
   size,
-  uploadDate
+  uploadDate,
+  id
 ) => {
-  await db.execute(
+  await db.query(
     `UPDATE files SET 
     name = ?,
     extension = ?,
