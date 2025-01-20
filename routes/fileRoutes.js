@@ -26,8 +26,7 @@ const {
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {    
-    console.log("From multer Storage req.user: ", req.user);
+  destination: (req, file, cb) => {        
     const uploadDir = 'uploads' + '\\' + req.user.userId;
     if (!fs.existsSync(uploadDir)) {
       fs.mkdirSync(uploadDir);
@@ -50,7 +49,7 @@ const upload = multer({
       Buffer.from(file.originalname, 'binary'), 'utf-8'
     );
     const filePath = path.join(userUploadDir, originalName);    
-        
+
     if (fs.existsSync(filePath) && req.method == 'POST') {
       return cb(
         'Error! File with the same name already exists!'
@@ -62,7 +61,6 @@ const upload = multer({
         'Error! File with the same name does not exist!'
       )
     }
-
     cb(null, true);
   }
 });
