@@ -5,7 +5,6 @@
 .env
 
 # Other
-/views
 combine.log
 error.log
 /uploads
