@@ -1,1 +1,6 @@
-Rest API Service for ERP AERO Company (Technical Assignment)
+Rest API Service.
+
+Stack:
+* JavaScript
+* Express.js
+* MySQL
