@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const authRoutes = require('./routes/authRoutes');
+const fileRoutes = require('./routes/fileRoutes');
 
 const app = express();
 const port = process.env.PORT;
@@ -23,6 +24,7 @@ app.use((req, res, next) => {
 });
 
 app.use('/', authRoutes);
+app.use('/file', fileRoutes);
 
 app.use(express.static('views'));
   
