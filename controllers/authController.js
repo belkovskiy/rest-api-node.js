@@ -75,13 +75,13 @@ const signup = async (req, res, next) => {
     logger.error({ error });
     error.stack = '';
     if (error.code == 'ER_DUP_ENTRY') {
-      error.message= 'Registration failed! User with the same ID already exists!';      
-      error.status = 409;       
-      next(error);    
+      error.message = 'Registration failed! User with the same ID already exists!';
+      error.status = 409;
+      next(error);
     } else {
-      error.message = 'Internal Server Error!';  
-      next(error);    
-    }    
+      error.message = 'Internal Server Error!';
+      next(error);
+    }
   }
 };
 
@@ -93,7 +93,7 @@ const signin = async (req, res, next) => {
   try {
     const user = await getUserById(id);
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      const error = new Error('Invalid credentials');      
+      const error = new Error('Invalid credentials');
       error.status = 401;
       console.log(error);
       logger.error(error);
@@ -138,7 +138,7 @@ const signin = async (req, res, next) => {
 
     res.json({ accessToken });
   } catch (error) {
-    logger.error('Signin failed!', { error });    
+    logger.error('Signin failed!', { error });
     next(error);
   }
 };
@@ -196,6 +196,14 @@ const info = async (req, res) => {
 const logout = async (req, res, next) => {
   const { refreshToken } = req.cookies;
 
+  const clearDataOnLogout = () => {
+    res.clearCookie('refreshToken', { path: '/' });
+    // res.setHeader(
+    //   'Clear-Site-Data',
+    //   '"cookies", "cache", "storage"'
+    // ); // Use for https://
+  }
+
   try {
     jwt.verify(
       refreshToken,
@@ -207,7 +215,7 @@ const logout = async (req, res, next) => {
             logger.error(
               'Refresh token jwt was expired!'
             );
-            res.clearCookie('refreshToken', { path: '/' });
+            clearDataOnLogout();
             res.status(401)
               .json({
                 error: 'Refresh token jwt was expired! ',
@@ -218,7 +226,7 @@ const logout = async (req, res, next) => {
             logger.error(
               'Json Web Token Error: invalid signature'
             );
-            res.clearCookie('refreshToken', { path: '/' });
+            clearDataOnLogout();
             res.status(401)
               .json({
                 error: 'Json Web Token Error: invalid signature',
@@ -228,7 +236,7 @@ const logout = async (req, res, next) => {
           }
         } else {
           await deleteSessionByToken(refreshToken);
-          res.clearCookie('refreshToken', { path: '/' });
+          clearDataOnLogout();
           res.json({
             accessToken: '',
             message: 'Logged out successfully! '
