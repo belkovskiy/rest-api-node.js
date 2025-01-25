@@ -1,7 +1,7 @@
 {
-  "name": "erp-aero-project",
+  "name": "rest-api-project",
   "version": "1.0.0",
-  "description": "Node.js rest-api for ERP-AERO",
+  "description": "Node.js rest-api",
   "main": "app.js",
   "scripts": {
     "init-db": "node scripts/initDb.js",
@@ -35,6 +35,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/belkovskiy/task-erp-aero-node.js.git"
+    "url": "https://github.com/belkovskiy/rest-api-node.js.git"
   }
 }
