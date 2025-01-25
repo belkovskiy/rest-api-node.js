@@ -27,7 +27,7 @@ app.use('/', authRoutes);
 app.use('/file', fileRoutes);
 
 app.get('/main', (req, res, next) => {
-  res.sendFile(path.join(__dirname, 'views/old_index.html'));
+  res.sendFile(path.join(__dirname, 'views/index.html'));
 })
 
 app.listen(port, () => {
