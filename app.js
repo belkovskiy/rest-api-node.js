@@ -9,7 +9,7 @@ const authRoutes = require('./routes/authRoutes');
 const fileRoutes = require('./routes/fileRoutes');
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(bodyParser.json());
@@ -25,6 +25,10 @@ app.use((req, res, next) => {
 
 app.use('/', authRoutes);
 app.use('/file', fileRoutes);
+
+app.get('/main', (req, res, next) => {
+  res.sendFile(path.join(__dirname, 'views/old_index.html'));
+})
 
 app.listen(port, () => {
   console.log(`Server is running at http://localhost:${port}`);
