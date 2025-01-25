@@ -1,6 +1,5 @@
 Rest API Service.
-
 Stack:
-* JavaScript
-* Express.js
-* MySQL
+JavaScript
+Express.js
+MySQL
